@@ -1,0 +1,65 @@
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.search-container {
+    background: url('https://venngage-wordpress.s3.amazonaws.com/uploads/2021/08/Technology-YouTube-Banner-Template.png') no-repeat center center; /* Cambia 'tu-imagen-de-fondo.jpg' por tu imagen */
+    
+    background-size: auto; 
+    height: 100vh; /* Altura completa de la ventana */
+    display: flex;
+    flex-direction: column; /* Organiza los elementos hijos en una columna */
+    justify-content: center;
+    align-items: center;
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    background-color: rgba(255, 255, 255, 0.7); /* Fondo semitransparente para mayor legibilidad */
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.search-form input[type="text"] {
+    border: 2px solid #ddd;
+    padding: 10px;
+    width: 300px; /* Ancho del campo de texto */
+    border-radius: 5px;
+}
+
+.search-form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.search-form button:hover {
+    background-color: #0056b3;
+}
+
+
+.search-container h1 {
+    margin-bottom: 20px; /* Ajusta el espacio entre el h1 y el formulario de búsqueda */
+    color: #ffffff; /* Ajusta el color del texto según tu diseño */
+    background-color: rgb(0, 0, 0); /* Fondo negro semitransparente */
+    padding: 20px 40px; /* Añade algo de espacio alrededor del texto */
+    border-radius: 5px; /* Opcional, para bordes redondeados *
+   
+    /* Agrega más estilos al h1 según sea necesario */
+}
+
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 10px;
+    text-align: left;
+}
