@@ -12,7 +12,7 @@
 // Función para obtener un nuevo mensaje del servidor Azure Function
 function obtenerNuevoMensaje() {
     // URL de tu Azure Function que proporciona el nuevo mensaje
-    $function_url = 'https://zxzxx.azurewebsites.net';
+    $function_url = 'https://jaime5210.azurewebsites.net';
 
     // Hacer una solicitud HTTP GET a la Function App
     $response = file_get_contents($function_url);
