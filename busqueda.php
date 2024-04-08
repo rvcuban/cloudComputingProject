@@ -8,48 +8,6 @@
 </head>
 <body>
 
-<?php
-session_start();
-require "base_datos.php";
-
-if(isset ($_GET["busqueda"])){
-    echo "estamos dentro y la busqueda fue ".$_GET["busqueda"];
-    print "<br>";
-    $busqueda =$_GET["busqueda"];
-    $sql_query = "Select * 
-                 from carreras 
-                      where NOMBRE_CARRERA ='$busqueda'" ;
-
-    $result = mysqli_query($connect, $sql_query);
-
-
-    if ($result) {
-
-        if (mysqli_num_rows($result) > 0) {
-            $rec = mysqli_fetch_row($result);
-            $id = $rec[0];
-            $_SESSION['carrera_nombre'] = $rec[1];
-            $_SESSION['campo'] = $rec[2];
-            print  $_SESSION['carrera_nombre'];
-            print "<br>";
-           print $_SESSION['campo'];
-            print "<br>";
-            
-    
-
-
-        } else print "No records to show.";
-    } else {
-        print "Something went wrong!!!";
-    }
-
-    // header( "Refresh:2; url=login.html", true, 303);
-} else {
-    echo "faltan datos";
-}
-
-?>
-
 <h2>Job List from CSV</h2>
 
 <table>
