@@ -15,7 +15,6 @@
         <th>Job Title</th>
         <th>Link</th>
         <th>ID</th>
-        <th>Link Again</th>
     </tr>
 
     <?php
