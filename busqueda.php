@@ -12,6 +12,7 @@
 
 <table>
     <tr>
+        <th>id</th>
         <th>Job Title</th>
         <th>Link</th>
         <th>ID</th>
