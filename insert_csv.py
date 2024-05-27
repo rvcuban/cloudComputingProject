@@ -5,7 +5,7 @@ from azure.cosmos import CosmosClient, exceptions, PartitionKey
 endpoint = "https://jaime020302.documents.azure.com:443/"
 key = "OXi6jlh4rbetCtjRkaiCqX6AnLOHYq4cfGLS2nLnjVH1oAGeiOq60q36C5Iy1JXOH4KUL4KmTApvACDbZqYu1w=="
 database_name = "JobLists"
-container_name = "Container1"
+container_name = "ContainerJobs"
 
 # Crear el cliente de Cosmos DB
 client = CosmosClient(endpoint, key)
@@ -18,7 +18,7 @@ container = database.create_container_if_not_exists(
 
 # Cargar el CSV
 csv_file_path = "job_list.csv"
-df = pd.read_csv(csv_file_path)
+df = pd.read_csv(csv_file_path, delimiter=',', on_bad_lines='warn')
 
 # Insertar cada fila en Cosmos DB
 for index, row in df.iterrows():
