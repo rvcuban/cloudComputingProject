@@ -17,7 +17,7 @@ container = database.create_container_if_not_exists(
 )
 
 # Cargar el CSV
-file_path = '/mnt/data/job_list.csv'
+file_path = 'job_list.csv'
 
 # Leer y limpiar el CSV
 try:
