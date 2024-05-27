@@ -17,14 +17,33 @@ container = database.create_container_if_not_exists(
 )
 
 # Cargar el CSV
-csv_file_path = "job_list.csv"
-df = pd.read_csv(csv_file_path, delimiter=',', on_bad_lines='warn')
+file_path = '/mnt/data/job_list.csv'
+
+# Leer y limpiar el CSV
+try:
+    df = pd.read_csv(file_path, delimiter=',', on_bad_lines='skip')
+    print("CSV cargado exitosamente")
+except pd.errors.ParserError as e:
+    print(f"Error al analizar el archivo CSV: {e}")
+    exit()
+
+# Mostrar las primeras filas del DataFrame para depuración
+print("Primeras filas del DataFrame:")
+print(df.head())
+
+# Verificar que las filas tengan el mismo número de columnas
+column_count = df.shape[1]
 
 # Insertar cada fila en Cosmos DB
 for index, row in df.iterrows():
-    try:
-        container.create_item(body=row.to_dict())
-    except exceptions.CosmosHttpResponseError as e:
-        print(f"Error al insertar el elemento en la fila {index}: {e}")
+    if len(row) == column_count:  # Solo insertar filas con el número correcto de columnas
+        item = row.to_dict()
+        print(f"Insertando elemento en la fila {index}: {item}")
+        try:
+            container.create_item(body=item)
+        except exceptions.CosmosHttpResponseError as e:
+            print(f"Error al insertar el elemento en la fila {index}: {e}")
+    else:
+        print(f"Fila {index} omitida debido a número incorrecto de columnas.")
 
-print("Datos importados exitosamente.")
+print("Proceso de importación completado.")
