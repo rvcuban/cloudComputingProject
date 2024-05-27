@@ -37,7 +37,7 @@ column_count = df.shape[1]
 # Función para validar datos
 def validar_datos(fila):
     # Asegúrate de que la fila tenga la clave de partición y cualquier otro campo necesario
-    if 'ID' not in fila or not fila['ID']:
+    if 'Job Title' not in fila or not fila['Job Title']:
         return False
     # Puedes agregar más validaciones según tus necesidades
     return True
