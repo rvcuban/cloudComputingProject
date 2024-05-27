@@ -8,6 +8,22 @@
 </head>
 <body>
 
+<?php
+session_start();
+include 'fetch_jobs.php';
+
+if(isset ($_GET["busqueda"])){
+    echo "Estamos dentro y la búsqueda fue: ".$_GET["busqueda"];
+    print "<br>";
+    $busqueda = $_GET["busqueda"];
+    $sql_query = "SELECT * FROM carreras WHERE NOMBRE_CARRERA = '$busqueda'";
+
+
+} else {
+    echo "Faltan datos";
+}
+?>
+
 <h2>Job List from CSV</h2>
 
 <table>
@@ -34,10 +50,7 @@
     }
     ?>
 
-
+</table>
 
 </body>
 </html>
-
-
-
