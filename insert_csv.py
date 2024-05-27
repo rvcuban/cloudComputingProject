@@ -17,7 +17,7 @@ container = database.create_container_if_not_exists(
 )
 
 # Cargar el CSV
-csv_file_path = "./job_list.csv"
+csv_file_path = "job_list.csv"
 df = pd.read_csv(csv_file_path)
 
 # Insertar cada fila en Cosmos DB
