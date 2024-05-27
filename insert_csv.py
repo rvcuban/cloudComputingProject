@@ -21,7 +21,7 @@ file_path = 'job_list.csv'
 
 # Leer y limpiar el CSV
 try:
-    df = pd.read_csv(file_path, delimiter=';', on_bad_lines='skip')
+    df = pd.read_csv(file_path, delimiter=',', on_bad_lines='skip')
     print("CSV cargado exitosamente")
 except pd.errors.ParserError as e:
     print(f"Error al analizar el archivo CSV: {e}")
