@@ -12,7 +12,7 @@ client = CosmosClient(endpoint, key)
 database = client.create_database_if_not_exists(id=database_name)
 container = database.create_container_if_not_exists(
     id=container_name, 
-    partition_key=PartitionKey(path="/id"), 
+    partition_key=PartitionKey(path="/ID"), 
     offer_throughput=400
 )
 
