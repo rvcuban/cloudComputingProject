@@ -12,7 +12,7 @@ client = CosmosClient(endpoint, key)
 database = client.create_database_if_not_exists(id=database_name)
 container = database.create_container_if_not_exists(
     id=container_name, 
-    partition_key=PartitionKey(path="/Job Title"), 
+    partition_key=PartitionKey(path="/ID"), 
     offer_throughput=400
 )
 
@@ -37,7 +37,7 @@ column_count = df.shape[1]
 # Función para validar datos
 def validar_datos(fila):
     # Asegúrate de que la fila tenga la clave de partición y cualquier otro campo necesario
-    if 'Job Title' not in fila or not fila['Job Title']:
+    if 'ID' not in fila or not fila['ID']:
         return False
     # Puedes agregar más validaciones según tus necesidades
     return True
