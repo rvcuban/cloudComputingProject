@@ -23,7 +23,7 @@
     if (($handle = fopen("job_list.csv", "r")) !== FALSE) {
         // Skip the first line/row of the CSV file for titles/headers.
         fgetcsv($handle);
-        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
             echo '<tr>';
             foreach ($data as $cell) {
                 echo '<td>' . htmlspecialchars($cell) . '</td>';
