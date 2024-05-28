@@ -66,7 +66,7 @@ function save_jobs_to_csv($jobs) {
 }
 
 function update_github_csv($filePath) {
-    $githubToken = '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'; // Reemplaza con el nuevo token de GitHub
+    $githubToken =  getenv('CSV_TOKEN'); // Reemplaza con el nuevo token de GitHub
     $repoOwner = 'rvcuban';
     $repoName = 'cloudComputingProject';
     $filePathInRepo = 'job_list.csv'; // Ruta al archivo en el repositorio
