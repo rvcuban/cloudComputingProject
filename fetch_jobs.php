@@ -1,7 +1,7 @@
 <?php
 
 function fetch_jobs($search_query, $location) {
-    $apiKey = 'e5548e4023msh9334b7417de87dap13c1bdjsncc574899c8d3';
+    $apiKey = '3977c6abb9mshc9d89b41ce8c215p1f69a1jsn66e1ffec78d0';
     $apiHost = 'jobs-api14.p.rapidapi.com';
 
     $queryParams = http_build_query([
@@ -66,7 +66,7 @@ function save_jobs_to_csv($jobs) {
 }
 
 function update_github_csv($filePath) {
-    $githubToken ='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';
+    $githubToken = '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'; // Reemplaza con el nuevo token de GitHub
     $repoOwner = 'rvcuban';
     $repoName = 'cloudComputingProject';
     $filePathInRepo = 'job_list.csv'; // Ruta al archivo en el repositorio
@@ -121,7 +121,8 @@ function update_github_csv($filePath) {
 }
 
 // Fetch jobs and update the CSV
-$jobs = fetch_jobs('php programmer', 'New York');
+$jobs = fetch_jobs('php', 'New York');
 save_jobs_to_csv($jobs);
 
 ?>
+
