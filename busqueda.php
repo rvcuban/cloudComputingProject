@@ -10,51 +10,35 @@
 
 <?php
 session_start();
+include 'fetch_jobs.php';
 
-function fetch_csv_from_github() {
-    $url = 'https://raw.githubusercontent.com/rvcuban/cloudComputingProject/main/job_list.csv';
-
-    // Obtén el contenido del archivo CSV desde GitHub
-    $csvContent = file_get_contents($url);
-
-    if ($csvContent === FALSE) {
-        die("Error al obtener el archivo CSV desde GitHub.");
-    }
-
-    // Escribe el contenido del CSV en un archivo local
-    file_put_contents('job_list.csv', $csvContent);
-}
-
-if(isset($_GET["busqueda"])){
+if(isset ($_GET["busqueda"])){
     echo "Estamos dentro y la búsqueda fue: ".$_GET["busqueda"];
     print "<br>";
     $busqueda = $_GET["busqueda"];
     $sql_query = "SELECT * FROM carreras WHERE NOMBRE_CARRERA = '$busqueda'";
 
-    // Aquí puedes agregar la lógica para conectar a la base de datos y ejecutar la consulta
-    // ...
+
 } else {
     echo "Faltan datos";
 }
-
-// Llama a la función para obtener el CSV desde GitHub y actualizar el archivo local
-fetch_csv_from_github();
 ?>
 
 <h2>Job List from CSV</h2>
 
 <table>
     <tr>
+        <th>id</th>
         <th>Job Title</th>
-        <th>Company</th>
-        <th>Location</th>
-        <th>URL</th>
+        <th>Link</th>
+        <th>ID</th>
+        <th>Link Again</th>
     </tr>
 
     <?php
-    // Abre el archivo en modo lectura
+    // Open the file in read mode
     if (($handle = fopen("job_list.csv", "r")) !== FALSE) {
-        // Saltar la primera línea del archivo CSV para títulos/encabezados.
+        // Skip the first line/row of the CSV file for titles/headers.
         fgetcsv($handle);
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
             echo '<tr>';

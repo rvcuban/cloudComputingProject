@@ -1,26 +1,53 @@
-FROM php:7.4-cli
+# Usa una imagen base de Python 3.12
+FROM python:3.12-slim
 
-# Instala las dependencias necesarias
-RUN docker-php-ext-install pdo pdo_mysql
+# Establece el directorio de trabajo en el contenedor
+WORKDIR /app
 
-# Instala zip, unzip y git
+# Instala las dependencias del sistema
 RUN apt-get update && apt-get install -y \
-    zip \
+    wget \
     unzip \
-    git \
-    curl
+    gnupg \
+    libnss3 \
+    libgconf-2-4 \
+    libx11-xcb1 \
+    libxcomposite1 \
+    libxcursor1 \
+    libxdamage1 \
+    libxext6 \
+    libxi6 \
+    libxtst6 \
+    libpangocairo-1.0-0 \
+    libpango-1.0-0 \
+    libatk1.0-0 \
+    libcups2 \
+    libxrandr2 \
+    libasound2 \
+    libgtk-3-0 \
+    xdg-utils \
+    --no-install-recommends && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copia el script PHP al contenedor
-COPY . /usr/src/myapp
+# Añadir la llave GPG de Google Chrome y el repositorio
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list' && \
+    apt-get update && \
+    apt-get install -y google-chrome-stable
 
-# Establece el directorio de trabajo
-WORKDIR /usr/src/myapp
+# Instala las dependencias de Python
+COPY requirements.txt /app/
+RUN pip install --upgrade pip
+RUN pip install -r /app/requirements.txt
 
-# Instala Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Copia los archivos de tu aplicación al contenedor
+COPY . /app
 
-# Instala las dependencias de Composer
-RUN composer require vlucas/phpdotenv guzzlehttp/guzzle
+# Establecer variables de entorno necesarias para Chrome
+ENV DISPLAY=:99
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
 
-# Comando para ejecutar el script PHP
-CMD ["php", "fetch_jobs.php"]
+# Comando para ejecutar tu scraper
+CMD ["python", "/app/scrapper.py"]

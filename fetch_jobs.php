@@ -4,12 +4,14 @@ function fetch_jobs($search_query, $location) {
     $apiKey = 'e5548e4023msh9334b7417de87dap13c1bdjsncc574899c8d3';
     $apiHost = 'jobs-api14.p.rapidapi.com';
 
+    // Parámetros de la solicitud
     $queryParams = http_build_query([
         'query' => $search_query,
         'location' => $location,
         'results_per_page' => 10
     ]);
 
+    // URL de la API
     $url = "https://$apiHost/list?$queryParams";
 
     $curl = curl_init();
@@ -49,79 +51,24 @@ function fetch_jobs($search_query, $location) {
 
 function save_jobs_to_csv($jobs) {
     $file = fopen('job_list.csv', 'w');
-    fputcsv($file, ['Job Title', 'Company', 'Location', 'URL']);
+    fputcsv($file, ['Job Title', 'Company', 'Location', 'URL']); // Encabezados del CSV
 
     foreach ($jobs as $job) {
         $title = $job['title'];
         $company = $job['company'];
         $location = $job['location'];
-        $url = $job['jobProviders'][0]['url'] ?? '';
+        $url = $job['jobProviders'][0]['url'] ?? ''; // Assuming the first job provider has the URL
         fputcsv($file, [$title, $company, $location, $url]);
     }
 
     fclose($file);
     echo "Archivo CSV actualizado con éxito.";
-
-    update_github_csv('job_list.csv');
 }
 
-function update_github_csv($filePath) {
-    $githubToken = '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';
-    $repoOwner = 'rvcuban';
-    $repoName = 'cloudComputingProject';
-    $filePathInRepo = 'job_list.csv'; // Ruta al archivo en el repositorio
-
-    $fileContent = file_get_contents($filePath);
-    $fileContentEncoded = base64_encode($fileContent);
-
-    $url = "https://api.github.com/repos/$repoOwner/$repoName/contents/$filePathInRepo";
-
-    $ch = curl_init($url);
-
-    // Obtener el SHA del archivo existente
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_USERAGENT, 'GitHub-API-Request');
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: token $githubToken"
-    ]);
-    $existingFileResponse = json_decode(curl_exec($ch), true);
-
-    if (isset($existingFileResponse['sha'])) {
-        $sha = $existingFileResponse['sha'];
-    } else {
-        $sha = null;
-    }
-
-    // Actualizar el archivo en el repositorio
-    $data = json_encode([
-        "message" => "Updating job_list.csv",
-        "content" => $fileContentEncoded,
-        "sha" => $sha
-    ]);
-
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json',
-        'Authorization: token ' . $githubToken,
-        'User-Agent: PHP-Script'
-    ]);
-
-    $response = curl_exec($ch);
-    $err = curl_error($ch);
-
-    curl_close($ch);
-
-    if ($err) {
-        echo "Error al actualizar el archivo en GitHub: " . $err;
-    } else {
-        echo "Archivo actualizado en GitHub: " . $response;
-    }
+$search_query = 'developer';
+$location = 'switzerland';
+$jobs = fetch_jobs($search_query, $location);
+if (!empty($jobs)) {
+    save_jobs_to_csv($jobs);
 }
-
-// Fetch jobs and update the CSV
-$jobs = fetch_jobs('php programmer', 'New York');
-save_jobs_to_csv($jobs);
-
 ?>
